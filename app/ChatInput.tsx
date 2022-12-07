@@ -2,10 +2,16 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
 import { Message } from "../typings";
+import useSWR from "swr";
+import fetcher from "../utils/fetchMessages";
 
 function ChatInput() {
   const [input, setInput] = React.useState("");
-  const addMessage = (e: React.FormEvent<HTMLFormElement>) => {
+  const { data: messages, error, mutate } = useSWR("/api/getMessages", fetcher);
+
+  console.log(messages);
+
+  const addMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input) return;
 
@@ -25,21 +31,24 @@ function ChatInput() {
       email: "upstash-demo@gmail.com",
     };
 
-    const uploadMessageToUpStash = async() => {
-      const res = await fetch('/api/addMessage',{
-        method:'POST',
+    const uploadMessageToUpStash = async () => {
+      const data = await fetch("/api/addMessage", {
+        method: "POST",
         headers: {
-          'Content-Type':"application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           message,
-        })
-      })
-      const data = await res.json();
-      console.log('s', data);
-    }
+        }),
+      }).then((res) => res.json());
 
-    uploadMessageToUpStash();
+      return [data.message, ...messages!];
+    };
+
+    await mutate(uploadMessageToUpStash, {
+      optimisticData: [message,...messages!],
+      rollbackOnError: true,
+    });
   };
 
   return (
