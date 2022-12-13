@@ -9,8 +9,6 @@ function ChatInput() {
   const [input, setInput] = React.useState("");
   const { data: messages, error, mutate } = useSWR("/api/getMessages", fetcher);
 
-  console.log(messages);
-
   const addMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input) return;
@@ -27,7 +25,7 @@ function ChatInput() {
       created_at: Date.now(),
       username: "Someone",
       profilePic:
-        "https://platform-lookaside.fbsbx.come/platform/profilepic/?asid=10165787690655179&height=500&width=50&text=1670750603&hash=AeQwQHgpc7_UkhQLsdY",
+        "https://w7.pngwing.com/pngs/247/564/png-transparent-computer-icons-user-profile-user-avatar-blue-heroes-electric-blue.png",
       email: "upstash-demo@gmail.com",
     };
 
@@ -54,7 +52,7 @@ function ChatInput() {
   return (
     <form
       onSubmit={addMessage}
-      className="fixed bottom-0 z-50 w-full flex px-10 py-5 space-x-2 border-t border-gray-100"
+      className="fixed bottom-0 z-50 w-full flex px-10 py-5 space-x-2 border-t border-gray-100 bg-white"
     >
       <input
         value={input}
