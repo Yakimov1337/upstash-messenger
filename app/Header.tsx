@@ -1,10 +1,11 @@
+import { unstable_getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import LogoutButton from "./LogoutButton";
 
-function Header() {
-  const session = true;
+export default async function Header() {
+  const session = await unstable_getServerSession();
 
   if (session)
     return (
@@ -13,16 +14,16 @@ function Header() {
           <Image
             height={10}
             width={50}
-            src="https://links.papareact.com/jne"
+            src={session.user?.image!}
             alt="Profile Pic"
           />
 
           <div>
             <p className="text-blue-400">Logged in as:</p>
-            <p className="font-bold text-lg">Name</p>
+            <p className="font-bold text-lg">{session.user?.name}</p>
           </div>
         </div>
-        <LogoutButton/>
+        <LogoutButton />
       </header>
     );
   return (
@@ -43,12 +44,9 @@ function Header() {
           href="/auth/signin"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          {" "}
           Sign In
         </Link>
       </div>
     </header>
   );
 }
-
-export default Header;
