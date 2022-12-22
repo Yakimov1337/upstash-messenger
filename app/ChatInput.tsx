@@ -7,7 +7,9 @@ import fetcher from "../utils/fetchMessages";
 import { unstable_getServerSession } from "next-auth";
 
 type Props = {
-  session: Awaited<ReturnType<typeof unstable_getServerSession>>;
+  //Awaited return type gives .ts(2339) error no idea why
+  session: any;
+  // session: Awaited<ReturnType<typeof unstable_getServerSession>>;
 };
 
 function ChatInput({ session }: Props) {
@@ -16,7 +18,7 @@ function ChatInput({ session }: Props) {
 
   const addMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!input) return;
+    if (!input || !session) return;
 
     const messageToSend = input;
 
@@ -28,10 +30,9 @@ function ChatInput({ session }: Props) {
       id,
       message: messageToSend,
       created_at: Date.now(),
-      username: "Someone",
-      profilePic:
-        "https://w7.pngwing.com/pngs/247/564/png-transparent-computer-icons-user-profile-user-avatar-blue-heroes-electric-blue.png",
-      email: "upstash-demo@gmail.com",
+      username: session?.user?.name!,
+      profilePic: session?.user?.image!,
+      email: session?.user?.email!,
     };
 
     const uploadMessageToUpStash = async () => {
