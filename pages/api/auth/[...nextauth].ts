@@ -10,7 +10,7 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET!,
   pages: {
-    signIn: "auth/signin",
+    signIn: "/auth/signin",
   },
 };
 export default NextAuth(authOptions);
