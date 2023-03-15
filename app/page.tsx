@@ -2,7 +2,7 @@ import React from "react";
 import MessageList from "./MessageList";
 import ChatInput from "./ChatInput";
 import { Message } from "../typings";
-import { unstable_getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import { Providers } from "./providers";
 
 async function HomePage() {
@@ -10,7 +10,7 @@ async function HomePage() {
     (res) => res.json()
   );
   const messages: Message[] = data.messages;
-  const session = await unstable_getServerSession();
+  const session = await getServerSession();
 
   return (
     <Providers session={session}>

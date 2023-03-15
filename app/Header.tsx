@@ -1,11 +1,11 @@
-import { unstable_getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import LogoutButton from "./LogoutButton";
 
 export default async function Header() {
-  const session = await unstable_getServerSession();
+  const session = await getServerSession();
 
   if (session)
     return (

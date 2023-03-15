@@ -4,12 +4,12 @@ import { v4 as uuid } from "uuid";
 import { Message } from "../typings";
 import useSWR from "swr";
 import fetcher from "../utils/fetchMessages";
-import { unstable_getServerSession } from "next-auth";
+import { getServerSession } from "next-auth";
 
 type Props = {
   //Awaited return type gives .ts(2339) error no idea why
   session: any;
-  // session: Awaited<ReturnType<typeof unstable_getServerSession>>;
+  //  session: Awaited<ReturnType<typeof getServerSession>>;
 };
 
 function ChatInput({ session }: Props) {
